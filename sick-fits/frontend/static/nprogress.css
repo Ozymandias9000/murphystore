@@ -4,14 +4,14 @@
 }
 
 #nprogress .bar {
-  background: red;
+  background: mistyrose;
   position: fixed;
   z-index: 1031;
   top: 0;
   left: 0;
 
   width: 100%;
-  height: 5px;
+  height: 3px;
 }
 
 /* Fancy blur effect */
@@ -21,7 +21,7 @@
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px red, 0 0 5px red;
+  box-shadow: 0 0 10px mistyrose, 0 0 5px mistyrose;
   opacity: 1;
 
   -webkit-transform: rotate(3deg) translate(0px, -4px);
@@ -62,7 +62,7 @@
   position: absolute;
 }
 
-@-webkit-keyframes nprogress-spinner {
+/* @-webkit-keyframes nprogress-spinner {
   0% {
     -webkit-transform: rotate(0deg);
   }
@@ -77,4 +77,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
+} */
