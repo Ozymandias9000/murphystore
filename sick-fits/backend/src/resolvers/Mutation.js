@@ -1,8 +1,7 @@
 const Mutations = {
   async createItem(parent, args, ctx, info) {
     // Check login
-
-    const item = await ctx.db.mutation.this.createItem(
+    const item = await ctx.db.mutation.createItem(
       {
         data: {
           ...args
