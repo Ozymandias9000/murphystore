@@ -63,6 +63,13 @@ const Mutations = {
     });
     // Return user to browser;
     return user;
+  },
+  async signin(parent, { email, password }, ctx, info) {
+    // 1. Check if user exists
+    // 2. Check password
+    // 3. Generate JWT token
+    // 4. Set cookie with token
+    // 5. Return user
   }
 };
 
