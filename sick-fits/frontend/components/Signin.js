@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
+import { CURRENT_USER_QUERY } from "./User";
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -16,7 +17,6 @@ const SIGNIN_MUTATION = gql`
 
 export default class Signin extends Component {
   state = {
-    name: "",
     password: "",
     email: ""
   };
@@ -27,19 +27,23 @@ export default class Signin extends Component {
 
   render() {
     return (
-      <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
-        {(signup, { error, loading }) => {
+      <Mutation
+        mutation={SIGNIN_MUTATION}
+        variables={this.state}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+      >
+        {(signin, { error, loading }) => {
           return (
             <Form
               method="post"
               onSubmit={async e => {
                 e.preventDefault();
-                await signup();
-                this.setState({ name: "", password: "", email: "" });
+                await signin();
+                this.setState({ password: "", email: "" });
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
-                <h2>Sign up for an Account!</h2>
+                <h2>Sign In!</h2>
                 <Error error={error} />
                 <label htmlFor="email">
                   Email
@@ -51,16 +55,7 @@ export default class Signin extends Component {
                     name="email"
                   />
                 </label>
-                <label htmlFor="name">
-                  Name
-                  <input
-                    type="text"
-                    placeholder="name"
-                    value={this.state.name}
-                    onChange={this.saveToState}
-                    name="name"
-                  />
-                </label>
+
                 <label htmlFor="password">
                   Password
                   <input
@@ -71,7 +66,7 @@ export default class Signin extends Component {
                     name="password"
                   />
                 </label>
-                <button type="submit">Sign Up!</button>
+                <button type="submit">Sign In!</button>
               </fieldset>
             </Form>
           );

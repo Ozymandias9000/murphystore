@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Signup from "../components/Signup";
+import Signin from "../components/Signin";
 import styled from "styled-components";
 
 const Columns = styled.div`
@@ -13,6 +14,7 @@ export default class SignupPage extends Component {
     return (
       <Columns>
         <Signup />
+        <Signin />
       </Columns>
     );
   }
