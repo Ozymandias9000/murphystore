@@ -103,12 +103,12 @@ const Mutations = {
       where: { email },
       data: { resetToken, resetTokenExpiry }
     });
-    console.log(res);
+
     return { message: "Thanks" };
     // 3. Email them the token
   },
   async resetPassword(parent, args, ctx, info) {
-    const { resetToken, resetTokenExpiry, confirmPassword } = args;
+    const { resetToken, confirmPassword } = args;
     // 1. Check if passwords match
     if (args.password !== confirmPassword)
       throw new Error(`Passwords must match!`);
@@ -118,7 +118,7 @@ const Mutations = {
       where: { resetToken, resetTokenExpiry_gte: Date.now() - 3600000 }
     });
     if (!user) throw new Error(`Invalid token!`);
-    console.log(user);
+
     // 4. Hash new pass
     const password = await bcrypt.hash(args.password, 10);
     // 5. Save new pass to user and remove old resetToken
