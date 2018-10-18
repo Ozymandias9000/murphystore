@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
 import { CURRENT_USER_QUERY } from "./User";
+import Router from "next/router";
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
@@ -57,7 +58,8 @@ export default class Rest extends Component {
                 e.preventDefault();
                 await reset();
                 this.setState({ password: "", confirmPassword: "" });
-                // TODO imperatively redirect
+
+                Router.push("/");
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
