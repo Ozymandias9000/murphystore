@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import PropTypes from "prop-types";
 import Error from "./ErrorMessage";
 import Table from "./styles/Table";
 import SickButton from "./styles/SickButton";
@@ -38,14 +39,14 @@ export default function Permissions(props) {
                 <th>Name</th>
                 <th>Email</th>
                 {possiblePermissions.map(per => (
-                  <th>{per}</th>
+                  <th key={per}>{per}</th>
                 ))}
                 <th>👇</th>
               </tr>
             </thead>
             <tbody>
               {data.users.map(user => (
-                <User user={user} />
+                <UserPermissions user={user} key={user.id} />
               ))}
             </tbody>
           </Table>
@@ -55,17 +56,51 @@ export default function Permissions(props) {
   );
 }
 
-class User extends Component {
+class UserPermissions extends Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+      id: PropTypes.string,
+      permissions: PropTypes.array
+    }).isRequired
+  };
+
+  state = {
+    permissions: this.props.user.permissions
+  };
+
+  handleToggle = e => {
+    const checkbox = e.target;
+    let updatedPermissions = [...this.state.permissions];
+
+    checkbox.checked
+      ? updatedPermissions.push(checkbox.value)
+      : (updatedPermissions = updatedPermissions.filter(
+          permission => permission !== checkbox.value
+        ));
+
+    this.setState({
+      permissions: updatedPermissions
+    });
+  };
+
   render() {
     const user = this.props.user;
+
     return (
       <tr>
         <td>{user.name}</td>
         <td>{user.email}</td>
         {possiblePermissions.map(permission => (
-          <td>
+          <td key={permission}>
             <label htmlFor={`${user.id}-permission-${permission}`}>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={this.state.permissions.includes(permission)}
+                value={permission}
+                onChange={this.handleToggle}
+              />
             </label>
           </td>
         ))}
