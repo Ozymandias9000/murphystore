@@ -201,28 +201,36 @@ const Mutations = {
     if (!userId) throw new Error("You must be signed in!");
     // 2. Query current cart
     const [existingCartItem] = await ctx.db.query.cartItems({
-      user: { id: userId },
-      item: { id: args.id }
+      where: {
+        user: { id: userId },
+        item: { id: args.id }
+      }
     });
     // 3. Check if item in cart - if so increment
     if (existingCartItem) {
       console.log("Already in");
-      return ctx.db.mutation.updateCartItem({
-        where: { id: existingCartItem.id },
-        data: { quantity: existingCartItem.quantity + 1 }
-      });
+      return ctx.db.mutation.updateCartItem(
+        {
+          where: { id: existingCartItem.id },
+          data: { quantity: existingCartItem.quantity + 1 }
+        },
+        info
+      );
     }
     // 4. If not create fresh CartItem for user
-    return ctx.db.mutation.createCartItem({
-      data: {
-        user: {
-          connect: { id: userId }
-        },
-        item: {
-          connect: { id: args.id }
+    return ctx.db.mutation.createCartItem(
+      {
+        data: {
+          user: {
+            connect: { id: userId }
+          },
+          item: {
+            connect: { id: args.id }
+          }
         }
-      }
-    });
+      },
+      info
+    );
   }
 };
 
