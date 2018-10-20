@@ -16,6 +16,7 @@ type User {
   resetTokenExpiry: Float
   permissions: [Permission]
   createdAt: DateTime!
+  cart: [CartItem!]!
 }
 
 type Item {
@@ -28,4 +29,11 @@ type Item {
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
+}
+
+type CartItem {
+  id: ID! @unique
+  quantity: Int! @default(value: 1)
+  item: Item! #rel
+  user: User! #rel
 }
