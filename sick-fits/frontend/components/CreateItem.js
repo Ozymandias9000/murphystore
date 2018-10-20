@@ -3,7 +3,6 @@ import { Mutation } from "react-apollo";
 import Form from "./styles/Form";
 import gql from "graphql-tag";
 import Router from "next/router";
-import formatMoney from "../lib/formatMoney";
 import Error from "./ErrorMessage";
 
 const CREATE_ITEM_MUTATION = gql`
@@ -30,14 +29,16 @@ export default class CreateItem extends Component {
   state = {
     title: "",
     description: "",
-    image: "",
-    largeImage: "",
+    image:
+      "https://res.cloudinary.com/dxdauopse/image/upload/v1539553360/murphystore/slpwil6nbioskzlcm6hw.jpg",
+    largeImage:
+      "https://res.cloudinary.com/dxdauopse/image/upload/c_scale,w_1000/v1539553360/murphystore/slpwil6nbioskzlcm6hw.jpg",
     price: 0
   };
 
   handleChange = e => {
     const { name, type, value } = e.target;
-    const val = type === "number" ? parseFloat(value) : value;
+    let val = type === "number" ? parseFloat(value) : value;
     this.setState({ [name]: val });
   };
 
@@ -55,7 +56,7 @@ export default class CreateItem extends Component {
       }
     );
     const file = await res.json();
-    console.log(file);
+
     this.setState({
       image: file.secure_url,
       largeImage: file.eager[0].secure_url
@@ -87,7 +88,6 @@ export default class CreateItem extends Component {
                   name="file"
                   placeholder="Upload an image"
                   onChange={this.uploadFile}
-                  required
                 />
                 {this.state.image && (
                   <img src={this.state.image} alt="Preview" />
