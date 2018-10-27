@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { CURRENT_USER_QUERY } from "./User";
 
@@ -12,7 +12,7 @@ const ADD_TO_CART_MUTATION = gql`
   }
 `;
 
-export default class Cart extends Component {
+export default class AddToCart extends Component {
   render() {
     const { id } = this.props;
     return (
